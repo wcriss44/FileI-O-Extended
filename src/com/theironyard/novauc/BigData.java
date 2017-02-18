@@ -1,17 +1,21 @@
 package com.theironyard.novauc;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class BigData {
     public static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) throws IOException {
-        DataRepository<Person> datarepo = new DataRepository<>("people.csv");
+        DataRepository<Person> dataRepository = new DataRepository<>("people.csv");
         Menu menu = new Menu();
+        //delcare new data repository and menus
 
         /*****************************************************************
+         * A better solution here might of been to have these declared
+         * in another class. Perhaps menu or a DataLogic class.
+         * I declared here for sake of assignment completion
+         *
          * First Lambda expression.
          * This changes the behavior of ObjectKeyMapper, which is
          * a functional interface declared in DataRepository class.
@@ -21,7 +25,6 @@ public class BigData {
          *****************************************************************/
 
         DataRepository.ObjectKeyMapper<Person> mapKey = p ->  p.getCountry();
-
 
         /*******************************************************************
          * Second Lambda expression
@@ -36,16 +39,7 @@ public class BigData {
             return  new Person (Integer.valueOf(nextArr[0]), nextArr[1], nextArr[2], nextArr[3], nextArr[4], nextArr[5]);
         };
 
-        DataRepository.ObjectSorter<Person> sorter = p -> {for(ArrayList<Person> o : p.values()) {
-            o.sort((o1, o2) -> o1.getLastName().compareTo(o2.getLastName()));}
-        }; //Sort method using lambda expression.
-
-        datarepo.populateData(createObject, mapKey);
-        datarepo.sortData(sorter);
-        menu.mainMenu(datarepo);
-
-
-
-
+        dataRepository.populateData(createObject, mapKey);
+        menu.mainMenu(dataRepository);
     }
 }

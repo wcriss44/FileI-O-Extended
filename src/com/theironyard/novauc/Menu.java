@@ -1,8 +1,22 @@
 package com.theironyard.novauc;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Menu {
+    /*******************************
+     * Lambda expression for sorting
+     *******************************/
+    DataRepository.ObjectSorter<Person> sorter = p -> {
+        for (ArrayList<Person> o : p.values()) {
+            o.sort(Comparator.comparing(o1 -> o1.getLastName()));
+        }
+    };
+
+    /***********************
+     * Menus
+     **********************/
 
     public void mainMenu(DataRepository<Person> dataRepository) throws IOException{
         menuDisplay();
@@ -12,6 +26,9 @@ public class Menu {
                 case "CHECK KEY":
                 case "CHECKKEY":
                     checkKey(dataRepository);
+                    break;
+                case "SORT":
+                    dataRepository.sortData(sorter);
                     break;
                 case "PRINT MENU":
                     printMenu(dataRepository);
@@ -53,6 +70,11 @@ public class Menu {
             }
         }
     }
+
+    /***********************
+     * Other methods
+     **********************/
+
     public void checkKey(DataRepository<Person> dataRepository){
         System.out.println("Key to check: ");
         if (dataRepository.containsKey(BigData.scanner.nextLine())){
@@ -74,6 +96,5 @@ public class Menu {
         System.out.println("*                                      *");
         System.out.println("****************************************\n");
     }
-
 
 }

@@ -11,6 +11,11 @@ import java.util.Scanner;
 
 
 public class DataRepository<T> {
+
+    /*****************
+     * Variables
+     ****************/
+
     private T t;
     private File file;
     private Scanner scannerFile;
@@ -18,11 +23,19 @@ public class DataRepository<T> {
     private HashMap<String, ArrayList<Object>> database = new HashMap<>();
     private JsonSerializer serializer = new JsonSerializer();
 
+    /*****************
+     * Constructor
+     ****************/
+
     public DataRepository(String filename) throws IOException{
         file = new File(filename);
         scannerFile = new Scanner(file);
         scannerFile.useDelimiter("\n");
     }
+
+    /****************************************
+     * Use abstract methods from FI below
+     ***************************************/
 
     public void populateData(FileObjectCreator objectCreator, ObjectKeyMapper keyMapper) {
         while (scannerFile.hasNext()) {
@@ -42,18 +55,10 @@ public class DataRepository<T> {
         objectSorter.sortz(database);
     }
 
-    @FunctionalInterface
-    interface ObjectSorter<T>{
-        void sortz(HashMap<String, ArrayList> database);
-    }
-    @FunctionalInterface
-    interface FileObjectCreator<T>{
-        T parse(String s);
-    }
-    @FunctionalInterface
-    interface ObjectKeyMapper<T>{
-        String map(T t);
-    }
+    /*****************
+     * Print methods
+     ****************/
+
 
     public void printDatabase(){
         for(ArrayList<Object> o : database.values()) {
@@ -76,6 +81,11 @@ public class DataRepository<T> {
             System.out.println(s);
         }
     }
+
+    /*****************
+     * Other methods
+     ****************/
+
     public boolean containsKey(String key){
         return database.containsKey(key);
     }
@@ -91,12 +101,20 @@ public class DataRepository<T> {
         fileWriter.close();
     }
 
-//    public void sort(){
-//        for(ArrayList<Object> o : database.values()){
-//            o.sort();
+    /************************
+     * Functional Interfaces
+     ***********************/
 
-//            for (Object p : o){
-//                p
-//            }
-
+    @FunctionalInterface
+    interface ObjectSorter<T>{
+        void sortz(HashMap<String, ArrayList> database);
+    }
+    @FunctionalInterface
+    interface FileObjectCreator<T>{
+        T parse(String s);
+    }
+    @FunctionalInterface
+    interface ObjectKeyMapper<T>{
+        String map(T t);
+    }
 }

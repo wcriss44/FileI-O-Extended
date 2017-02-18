@@ -1,12 +1,21 @@
 package com.theironyard.novauc;
 
 public class Person {
+
+    /*****************
+     * Variables
+     ****************/
+
     private int id;
     private String firstName;
     private String lastName;
     private String email;
     private String country;
     private String ipAddress;
+
+    /*****************
+     * Constructors
+     ****************/
 
     public Person(int id, String firstName, String lastName, String email, String country, String ipAddress){
         this.id = id;
@@ -20,54 +29,56 @@ public class Person {
 
     }
 
-
-    public String getFirstName(){
-        return firstName;
-    }
-
-    public int getId() {
-        return id;
-    }
+    /*****************
+     * Setters
+     ****************/
 
     public void setId(int id) {
         this.id = id;
     }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-
-    public String getLastName() {
-        return lastName;
-    }
-
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
-    public String getEmail() {
-        return email;
-    }
-
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public String getCountry() {
-        return country;
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
     }
-
     public void setCountry(String country) {
         this.country = country;
     }
 
+    /*****************
+     * Getters
+     ****************/
+
+    public String getFirstName(){
+        return firstName;
+    }
+    public int getId() {
+        return id;
+    }
+    public String getLastName() {
+        return lastName;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public String getCountry() {
+        return country;
+    }
     public String getIpAddress() {
         return ipAddress;
     }
 
-    public void setIpAddress(String ipAddress) {
-        this.ipAddress = ipAddress;
-    }
+    /*********************************
+     * toString override for printing
+     ********************************/
+
     @Override
     public String toString(){
 
