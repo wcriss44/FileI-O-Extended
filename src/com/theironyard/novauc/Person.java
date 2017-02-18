@@ -1,14 +1,12 @@
 package com.theironyard.novauc;
 
 public class Person {
-    public int id;
-    public String firstName;
-    public String lastName;
-    public String email;
-    public String country;
-    public String ipAddress;
-
-    //TODO: MAKE these private
+    private int id;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String country;
+    private String ipAddress;
 
     public Person(int id, String firstName, String lastName, String email, String country, String ipAddress){
         this.id = id;
@@ -21,6 +19,8 @@ public class Person {
     public Person(){
 
     }
+
+
     public String getFirstName(){
         return firstName;
     }

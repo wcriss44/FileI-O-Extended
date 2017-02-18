@@ -1,12 +1,15 @@
 package com.theironyard.novauc;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
-public class Main {
+public class BigData {
+    public static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) throws IOException {
         DataRepository<Person> datarepo = new DataRepository<>("people.csv");
+        Menu menu = new Menu();
 
         /*****************************************************************
          * First Lambda expression.
@@ -33,6 +36,16 @@ public class Main {
             return  new Person (Integer.valueOf(nextArr[0]), nextArr[1], nextArr[2], nextArr[3], nextArr[4], nextArr[5]);
         };
 
+        DataRepository.ObjectSorter<Person> sorter = p -> {for(ArrayList<Person> o : p.values()) {
+            o.sort((o1, o2) -> o1.getLastName().compareTo(o2.getLastName()));}
+        }; //Sort method using lambda expression.
+
         datarepo.populateData(createObject, mapKey);
+        datarepo.sortData(sorter);
+        menu.mainMenu(datarepo);
+
+
+
+
     }
 }

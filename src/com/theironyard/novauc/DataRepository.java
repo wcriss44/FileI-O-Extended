@@ -1,6 +1,9 @@
 package com.theironyard.novauc;
 
+import jodd.json.JsonSerializer;
+
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,13 +14,14 @@ public class DataRepository<T> {
     private T t;
     private File file;
     private Scanner scannerFile;
+    private FileWriter fileWriter;
     private HashMap<String, ArrayList<Object>> database = new HashMap<>();
+    private JsonSerializer serializer = new JsonSerializer();
 
     public DataRepository(String filename) throws IOException{
         file = new File(filename);
         scannerFile = new Scanner(file);
         scannerFile.useDelimiter("\n");
-
     }
 
     public void populateData(FileObjectCreator objectCreator, ObjectKeyMapper keyMapper) {
@@ -34,12 +38,13 @@ public class DataRepository<T> {
 
         }
     }
-
-    public void set(T t){
-        this.t = t;
+    public void sortData(ObjectSorter objectSorter){
+        objectSorter.sortz(database);
     }
-    public T get(){
-        return t;
+
+    @FunctionalInterface
+    interface ObjectSorter<T>{
+        void sortz(HashMap<String, ArrayList> database);
     }
     @FunctionalInterface
     interface FileObjectCreator<T>{
@@ -57,7 +62,41 @@ public class DataRepository<T> {
             }
         }
     }
+    public void printByKey(String key){
+        if (database.containsKey(key)){
+            for(Object o : database.get(key)){
+                System.out.println(o.toString());
+            }
+        } else {
+            System.out.println("Not a valid key! Check first next time!");
+        }
+    }
+    public void printKeySet(){
+        for(String s: database.keySet()){
+            System.out.println(s);
+        }
+    }
     public boolean containsKey(String key){
         return database.containsKey(key);
     }
+    public void getJsoned(String filepath) throws IOException{
+        fileWriter = new FileWriter(filepath);
+        for(ArrayList<Object> o : database.values()){
+            for (Object p : o){
+                String json = serializer.serialize(p);
+                fileWriter.append(json);
+                fileWriter.append("\n");
+            }
+        }
+        fileWriter.close();
+    }
+
+//    public void sort(){
+//        for(ArrayList<Object> o : database.values()){
+//            o.sort();
+
+//            for (Object p : o){
+//                p
+//            }
+
 }
